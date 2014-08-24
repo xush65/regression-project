@@ -1,0 +1,54 @@
+# MT is Better than AT for Fuel Efficiency
+### By Marco Xu
+## Exclusive Summary and Synopsis
+This report tries to answer these two questions.
+##### ¡°Is an automatic or manual transmission better for MPG¡± & 
+##### ¡°Quantify the MPG difference between automatic and manual transmissions¡±
+##### I take the mtcars data set and write up an analysis to answer their question using regression models and exploratory data analyses.
+
+## Part1 "Is an automatic or manual transmission better for MPG¡±
+We may take a glimpse of the mtcars data. First use the cor function to get the correlations between mpg and each of other variables. Also we will draw a plot Figure 1 of correlations between different variables with "corrplot.mixed".
+```{r}
+library(datasets)
+library(corrplot)
+summary(mtcars)
+```
+
+Second we will draw the box plot Figure 2 of the mpg variable against the influence by factor am with "boxplot"
+
+## Part2 Quantify the MPG difference between automatic and manual transmissions
+First, we try to find some relations
+```{r}
+bartlett.test(mpg ~ am, data = mtcars)$p.value
+```
+The p-value is significantly small, thus we will draw to the conclusion that the variable am influences the mean of different cars¡¯ MPG.
+```{r,results='hide'}
+fit.whole <- lm(mpg ~ ., data = mtcars)
+fit.optimal <- step(fit.whole, direction = 'both')
+```
+```{r}
+summary(fit.optimal)
+```
+Then we plot them with "plot".
+
+This is the end of the main text
+#### _______________________________________________________________________________________________________________________________
+
+
+## Appendix
+#### Part1 Figure1
+```{r}
+M <- cor(mtcars)
+corrplot.mixed(M, lower = "number", upper = "circle", title= "Correlations between Different Variances")
+```
+#### Part1 Figure2
+```{r}
+boxplot(mpg ~ am, data = mtcars, col=c("steelblue","hotpink"),names = c("Automatic", "Manual"),las=1, font.lab=2)
+```
+#### Part2 Figure
+```{r}
+par(mfrow = c(2,2))
+plot(fit.optimal)
+```
+
+This is the end of the appendix 

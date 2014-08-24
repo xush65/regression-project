@@ -1,0 +1,11 @@
+library(datasets)
+library(corrplot)
+M <- cor(mtcars)
+corrplot.mixed(M, lower = "number", upper = "circle", title= "Correlations between Different Variances")
+boxplot(mpg ~ am, data = mtcars, col=c("steelblue","hotpink"),names = c("Automatic", "Manual"),las=1, font.lab=2)
+bartlett.test(mpg ~ am, data = mtcars.fact)$p.value
+fit.whole <- lm(mpg ~ ., data = mtcars.fact)
+fit.optimal <- step(fit.whole, direction = 'both')
+print(fit.optimal$call)
+par(mfrow = c(2,2))
+plot(fit.optimal)
